@@ -1,5 +1,3 @@
-from logging import error
-
 from selenium.common.exceptions import ElementNotInteractableException, TimeoutException
 
 from selenium.webdriver.support.wait import WebDriverWait

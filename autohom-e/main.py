@@ -2,22 +2,44 @@ import sys
 import time
 
 from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
+
+from chromedriver_autoinstaller.utils import download_chromedriver
 
 from automation.fillable import fill_input
 from automation.clickable import click
 from config.urls import URL_CONFIG
 
 
-def main(url_path: str):
+def initialize_driver():
     try:
         driver = webdriver.Chrome()
-    except Exception:
-        print('chromedriver.exe is not present in the main project directory or is incompatible with your browser.')
+    except WebDriverException:
+        try:
+            download_chromedriver()
+            driver = webdriver.Chrome()
+        except Exception:
+            return None
+
+    return driver
+
+
+def main(url_path: str):
+    driver = initialize_driver()
+
+    if driver is None:
+        print('Driver could not be initialized. Shutting down...')
         return
 
-    driver.get(url_path)
+    try:
+        driver.get(url_path)
+    except WebDriverException:
+        print("Connection could not be established. Shutting down...")
+        driver.quit()
+        return
+
     driver.set_window_size(1600, 900)
 
     # Property page
@@ -88,12 +110,13 @@ def main(url_path: str):
         except Exception:
             break
 
-    print("Shutting down.")
+    print("Shutting down...")
     driver.quit()
 
 
 if __name__ == '__main__':
-    url_key = str(sys.argv[1])
+    url_key = str(sys.argv[1]) if len(sys.argv) > 1 else URL_CONFIG.keys()[0]
+    url_key = url_key if url_key in URL_CONFIG.keys() else URL_CONFIG.keys()[0]
     url = URL_CONFIG[url_key]
 
     main(url)
