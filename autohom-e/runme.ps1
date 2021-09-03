@@ -1,11 +1,6 @@
-$Venv = '.\venv'
-
-if (!(Test-Path -Path $Venv)) {
-    python -m venv $Venv
+if (!(Test-Path -Path .\venv)) {
+    python -m venv .\venv
 }
 
-Start-Process $Venv\Scripts\activate.bat
-
-pip install -r requirements.txt
-
-python main.py local
+.\venv\Scripts\pip3.exe install -r requirements.txt
+.\venv\Scripts\python.exe main.py local
