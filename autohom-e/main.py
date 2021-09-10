@@ -81,7 +81,7 @@ def main(url_path: str):
     fill_input(driver, By.ID, "field_occupants_birthdate_day", "25")
     fill_input(driver, By.ID, "field_occupants_birthdate_month", "09")
     fill_input(driver, By.ID, "field_occupants_birthdate_year", "1999")
-    click(driver, By.CSS_SELECTOR, ".ps--active-y .dropdown__itemsInner:nth-child(1) > .dropdown__item")
+    click(driver, By.XPATH, '/html/body/app-root/app-home/main/div/section/div/form/app-occupants-marital-status/app-dropdown/div/div[1]/div/div/app-generic-dropdown/div/div[2]/div/perfect-scrollbar/div/div[1]/ul/li[1]')
     click(driver, By.CSS_SELECTOR, ".row__submit")
     click(driver, By.CSS_SELECTOR, ".row__submit")
 
