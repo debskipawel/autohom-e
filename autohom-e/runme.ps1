@@ -3,4 +3,4 @@ if (!(Test-Path -Path .\venv)) {
 }
 
 .\venv\Scripts\pip3.exe install -r requirements.txt
-.\venv\Scripts\python.exe main.py local
+.\venv\Scripts\python.exe main.py pp

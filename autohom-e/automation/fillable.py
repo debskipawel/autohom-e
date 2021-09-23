@@ -3,7 +3,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 def fill_input(driver, select_by, selector, keys):
-    WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((select_by, selector))
     )
 

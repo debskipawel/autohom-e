@@ -11,6 +11,7 @@ from chromedriver_autoinstaller.utils import download_chromedriver
 from automation.fillable import fill_input
 from automation.clickable import click
 from config.urls import URL_CONFIG
+from config.form_config import FORM_CONFIG
 
 
 def initialize_driver():
@@ -36,7 +37,11 @@ def main(url_path: str):
     try:
         driver.get(url_path)
     except WebDriverException:
-        print("Connection could not be established. Shutting down...")
+        if URL_CONFIG['local'] == url_path:
+            print("Connection error: Make sure your local Hom-E runs.")
+        else:
+            print('Connection error. Make sure your VPN is on')
+        print('Shutting down...')
         driver.quit()
         return
 
@@ -44,21 +49,21 @@ def main(url_path: str):
 
     # Property page
     click(driver, By.LINK_TEXT, "Recommencer le questionnaire")
-    click(driver, By.CSS_SELECTOR, ".ng-star-inserted:nth-child(2) > .row__radioListButton > .radioListButton__checkmark")
+    click(driver, By.CSS_SELECTOR, f".ng-star-inserted:nth-child(2) > .row__radioListButton > .radioListButton__checkmark")
     click(driver, By.ID, "field_property_address")
-    fill_input(driver, By.ID, "field_property_address", "asdasdadasd")
+    fill_input(driver, By.ID, "field_property_address", "absolute_gibberish")
     click(driver, By.LINK_TEXT, "Adresse non trouvée")
     click(driver, By.ID, "field_property_address_zipcode")
-    fill_input(driver, By.ID, "field_property_address_zipcode", "75001")
-    click(driver, By.LINK_TEXT, "75001 Paris")
+    fill_input(driver, By.ID, "field_property_address_zipcode", FORM_CONFIG['postcode'])
+    click(driver, By.XPATH, '/html/body/app-root/app-home/main/div/section/div/form/app-property-address-zipcode/app-dropdown-search/div/div[1]/div/div/div/div/perfect-scrollbar/div/div[1]/ul/li')
     click(driver, By.CSS_SELECTOR, ".ng-star-inserted:nth-child(2) > .radioButtons__selection__picto > .radioListButton__label")
     click(driver, By.CSS_SELECTOR, ".ng-untouched > .ng-star-inserted:nth-child(1) .radioListButton__label")
     click(driver, By.ID, "field_property_rooms_number")
-    fill_input(driver, By.ID, "field_property_rooms_number", "2")
+    fill_input(driver, By.ID, "field_property_rooms_number", f'{ FORM_CONFIG["rooms_number"] }')
     click(driver, By.ID, "field_property_rooms_number_extend")
-    fill_input(driver, By.ID, "field_property_rooms_number_extend", "0")
+    fill_input(driver, By.ID, "field_property_rooms_number_extend", f'{ FORM_CONFIG["large_rooms_number"] }')
     click(driver, By.ID, "field_property_surface")
-    fill_input(driver, By.ID, "field_property_surface", "40")
+    fill_input(driver, By.ID, "field_property_surface", f'{ FORM_CONFIG["property_size"] }')
     click(driver, By.CSS_SELECTOR, ".ng-untouched > .ng-star-inserted:nth-child(1) .radioListButton__checkmark")
     click(driver, By.CSS_SELECTOR, ".row__radioButton:nth-child(2) > label")
     click(driver, By.CSS_SELECTOR, ".ng-untouched > .row__radioButton:nth-child(2) > label")
@@ -72,15 +77,15 @@ def main(url_path: str):
     element = driver.find_element(By.ID, "field_occupants_move_in_year__help")
     actions = ActionChains(driver)
     actions.move_to_element(element).perform()
-    fill_input(driver, By.ID, "field_occupants_move_in_year", "2019")
+    fill_input(driver, By.ID, "field_occupants_move_in_year", FORM_CONFIG['move_in_year'])
     click(driver, By.CSS_SELECTOR, ".ng-untouched > .ng-star-inserted:nth-child(1) .radioListButton__checkmark")
     click(driver, By.CSS_SELECTOR, ".ng-untouched > .row__radioButton:nth-child(2) > label")
     click(driver, By.CSS_SELECTOR, ".ng-untouched > .row__radioButton:nth-child(2) > label")
     click(driver, By.CSS_SELECTOR, ".dropdown__itemsInner:nth-child(4) > .dropdown__item")
     click(driver, By.ID, "field_occupants_birthdate_day")
-    fill_input(driver, By.ID, "field_occupants_birthdate_day", "25")
-    fill_input(driver, By.ID, "field_occupants_birthdate_month", "09")
-    fill_input(driver, By.ID, "field_occupants_birthdate_year", "1999")
+    fill_input(driver, By.ID, "field_occupants_birthdate_day", FORM_CONFIG['birth_date_day'])
+    fill_input(driver, By.ID, "field_occupants_birthdate_month", FORM_CONFIG['birth_date_month'])
+    fill_input(driver, By.ID, "field_occupants_birthdate_year", FORM_CONFIG['birth_date_year'])
     click(driver, By.XPATH, '/html/body/app-root/app-home/main/div/section/div/form/app-occupants-marital-status/app-dropdown/div/div[1]/div/div/app-generic-dropdown/div/div[2]/div/perfect-scrollbar/div/div[1]/ul/li[1]')
     click(driver, By.CSS_SELECTOR, ".row__submit")
     click(driver, By.CSS_SELECTOR, ".row__submit")
@@ -100,7 +105,7 @@ def main(url_path: str):
     click(driver, By.CSS_SELECTOR, ".ng-untouched > .row__radioButton:nth-child(2) > label")
     click(driver, By.CSS_SELECTOR, ".ng-untouched > .row__radioButton:nth-child(2) > label")
     click(driver, By.ID, "field_situation_cars_number")
-    fill_input(driver, By.ID, "field_situation_cars_number", "0")
+    fill_input(driver, By.ID, "field_situation_cars_number", f'{ FORM_CONFIG["cars_number"] }')
     click(driver, By.CSS_SELECTOR, ".row__submit")
 
     while True:
