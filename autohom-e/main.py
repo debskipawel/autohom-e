@@ -93,7 +93,9 @@ def main(url_path: str):
     # Situation page
     click(driver, By.CSS_SELECTOR, ".row__radioButton:nth-child(1) > label")
     click(driver, By.ID, "field_situation_company")
-    fill_input(driver, By.ID, "field_situation_company", "allianz")
+    fill_input(driver, By.ID, "field_situation_company", "all")
+    time.sleep(0.2)
+    fill_input(driver, By.ID, "field_situation_company", "ianz")
     click(driver, By.LINK_TEXT, "Allianz")
     click(driver, By.CSS_SELECTOR, ".ng-untouched > .row__radioButton:nth-child(1) > label")
     click(driver, By.CSS_SELECTOR, ".icon-calendar")
@@ -120,8 +122,9 @@ def main(url_path: str):
 
 
 if __name__ == '__main__':
-    url_key = str(sys.argv[1]) if len(sys.argv) > 1 else URL_CONFIG.keys()[0]
-    url_key = url_key if url_key in URL_CONFIG.keys() else URL_CONFIG.keys()[0]
+    dict_keys = list(URL_CONFIG.keys())
+    url_key = str(sys.argv[1]) if len(sys.argv) > 1 else dict_keys[0]
+    url_key = url_key if url_key in dict_keys else dict_keys[0]
     url = URL_CONFIG[url_key]
 
     main(url)

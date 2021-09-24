@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 def click(driver, select_by, selector):
     try:
-        WebDriverWait(driver, 10).until(
+        WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((select_by, selector))
         )
     except TimeoutException:
