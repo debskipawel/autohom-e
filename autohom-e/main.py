@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 
 from chromedriver_autoinstaller.utils import download_chromedriver
 
@@ -12,11 +13,12 @@ from automation.fillable import fill_input
 from automation.clickable import click
 from config.urls import URL_CONFIG
 from config.form_config import FORM_CONFIG
+from config.path_config import PATH_CONFIG
 
 
-def initialize_driver():
+def initialize_driver(options):
     try:
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(options=options)
     except WebDriverException:
         try:
             download_chromedriver()
@@ -28,7 +30,10 @@ def initialize_driver():
 
 
 def main(url_path: str):
-    driver = initialize_driver()
+    chrome_options = Options()
+    chrome_options.add_extension(PATH_CONFIG['redux'])
+
+    driver = initialize_driver(chrome_options)
 
     if driver is None:
         print('Driver could not be initialized. Shutting down...')
