@@ -3,10 +3,12 @@ from selenium.common.exceptions import ElementNotInteractableException, TimeoutE
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from .selenium_settings import SELENIUM_SETTINGS
+
 
 def click(driver, select_by, selector):
     try:
-        WebDriverWait(driver, 20).until(
+        WebDriverWait(driver, SELENIUM_SETTINGS['timeout_after']).until(
             EC.presence_of_element_located((select_by, selector))
         )
     except TimeoutException:
