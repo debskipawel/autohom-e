@@ -9,7 +9,7 @@ from home_selenium.occupants import occupants_page_journey
 from on_shutdown import wait_for_chrome_shutdown
 from on_launch import initialize_driver, prepare_chrome_options
 
-from config.urls import URL_CONFIG
+from config.url_config import URL_CONFIG
 
 
 def main(url_path: str):
