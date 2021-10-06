@@ -5,6 +5,7 @@ from selenium.common.exceptions import WebDriverException
 from home_selenium.property import property_page_journey
 from home_selenium.situation import situation_page_journey
 from home_selenium.occupants import occupants_page_journey
+from home_selenium.preparation import preparation
 
 from on_shutdown import wait_for_chrome_shutdown
 from on_launch import initialize_driver, prepare_chrome_options
@@ -30,6 +31,7 @@ def main(url_path: str):
         driver.quit()
         return
 
+    preparation(driver)
     property_page_journey(driver)
     occupants_page_journey(driver)
     situation_page_journey(driver)
@@ -44,4 +46,7 @@ if __name__ == '__main__':
     url_key = url_key if url_key in dict_keys else dict_keys[0]
     url = URL_CONFIG[url_key]
 
-    main(url)
+    try:
+        main(url)
+    except Exception:
+        print('Unhandled error occured :C')

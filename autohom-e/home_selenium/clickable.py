@@ -22,3 +22,19 @@ def click(driver, select_by, selector):
         element.click()
     except ElementNotInteractableException:
         driver.execute_script('arguments[0].click();', element)
+
+
+def click_if_detected(driver, select_by, selector, timeout):
+    try:
+        WebDriverWait(driver, timeout).until(
+            EC.presence_of_element_located((select_by, selector))
+        )
+    except Exception:
+        pass
+
+    element = driver.find_element(select_by, selector)
+
+    try:
+        element.click()
+    except ElementNotInteractableException:
+        driver.execute_script('arguments[0].click();', element)
