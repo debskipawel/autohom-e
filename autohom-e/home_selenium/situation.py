@@ -9,9 +9,12 @@ from .clickable import click
 def situation_page_journey(driver):
     click(driver, By.CSS_SELECTOR, ".row__radioButton:nth-child(1) > label")
     click(driver, By.ID, "field_situation_company")
+
+    # hacking to additionally wait for dropdown on insurance companies
     fill_input(driver, By.ID, "field_situation_company", "all")
-    time.sleep(1)
+    time.sleep(0.5)
     fill_input(driver, By.ID, "field_situation_company", "ianz")
+
     click(driver, By.LINK_TEXT, "Allianz")
     click(driver, By.CSS_SELECTOR, ".ng-untouched > .row__radioButton:nth-child(1) > label")
     click(driver, By.XPATH, '/html/body/app-root/app-home/main/div/section/div/form/app-situation-current-renewal-date/app-full-date/div/div[1]/div/div/button[1]')

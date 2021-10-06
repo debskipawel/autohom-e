@@ -5,7 +5,6 @@ from .clickable import click
 
 
 def property_page_journey(driver):
-    click(driver, By.LINK_TEXT, "Recommencer le questionnaire")
     click(driver, By.CSS_SELECTOR, f".ng-star-inserted:nth-child(2) > .row__radioListButton > .radioListButton__checkmark")
     click(driver, By.ID, "field_property_address")
     fill_input(driver, By.ID, "field_property_address", "absolute_gibberish")
